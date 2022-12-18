@@ -77,7 +77,7 @@ Widget textfield(
   );
 }
 
-class CustomTextField extends StatefulWidget {
+class CustomTextField extends StatelessWidget {
   const CustomTextField(
       {super.key,
       required this.hint,
@@ -95,20 +95,17 @@ class CustomTextField extends StatefulWidget {
   final FocusNode focusNode;
 
   @override
-  State<CustomTextField> createState() => _CustomTextFieldState();
-}
-
-class _CustomTextFieldState extends State<CustomTextField> {
-  @override
   Widget build(BuildContext context) {
     return BlocBuilder<MyFormBloc, MyFormState>(builder: (context, state) {
+      print(
+          'the email one : ${state.email.invalid} + ${state.password.invalid}');
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.label,
+              label,
               style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
             ),
             const SizedBox(
@@ -128,12 +125,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 ],
               ),
               child: TextFormField(
+                initialValue: state.email.value,
                 onChanged: ((value) {
+                  print(
+                      'the email one 2: ${state.email.invalid} + ${state.password.invalid}');
                   context.read<MyFormBloc>().add(EmailChanged(email: value));
                 }),
-                focusNode: widget.focusNode,
-                obscureText: widget.hidden,
-                keyboardType: widget.type,
+                focusNode: focusNode,
+                obscureText: hidden,
+                keyboardType: type,
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   errorText: state.email.invalid
@@ -145,10 +145,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     fontSize: 16,
                     color: Colors.black45,
                   ),
-                  hintText: widget.hint,
+                  hintText: hint,
                   focusColor: Colors.grey,
-                  suffixIcon: Icon(widget.icon,
-                      size: 25, color: const Color(0xff606470)),
+                  suffixIcon:
+                      Icon(icon, size: 25, color: const Color(0xff606470)),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: const BorderSide(
                       color: Colors.white54,
@@ -194,6 +194,7 @@ class _CustomPassFieldState extends State<CustomPassField> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MyFormBloc, MyFormState>(builder: (context, state) {
+      print('${state.email.invalid} + ${state.password.invalid}');
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -220,8 +221,11 @@ class _CustomPassFieldState extends State<CustomPassField> {
                 ],
               ),
               child: TextFormField(
+                initialValue: state.password.value,
                 onChanged: ((value) {
-                  context.read<MyFormBloc>().add(EmailChanged(email: value));
+                  context
+                      .read<MyFormBloc>()
+                      .add(PasswordChanged(password: value));
                 }),
                 focusNode: widget.focusNode,
                 obscureText: widget.hidden,
@@ -229,7 +233,7 @@ class _CustomPassFieldState extends State<CustomPassField> {
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   errorText: state.password.invalid
-                      ? 'Please ensure the email is valid'
+                      ? 'Please ensure the password is 8 lentgh long and have lettet and numbers'
                       : null,
                   filled: true,
                   fillColor: Colors.white,
