@@ -18,6 +18,17 @@ class EmailChanged extends MyFormEvent {
 
 class EmailUnfocused extends MyFormEvent {}
 
+class PhoneChanged extends MyFormEvent {
+  const PhoneChanged({required this.phone});
+
+  final String phone;
+
+  @override
+  List<Object> get props => [phone];
+}
+
+class PhoneUnfocused extends MyFormEvent {}
+
 class PasswordChanged extends MyFormEvent {
   const PasswordChanged({required this.password});
 

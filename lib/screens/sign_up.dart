@@ -14,6 +14,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final _emailFocusNode = FocusNode();
+  final _phoneFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
 
   @override
@@ -22,7 +23,13 @@ class _SignUpState extends State<SignUp> {
     _emailFocusNode.addListener(() {
       if (!_emailFocusNode.hasFocus) {
         context.read<MyFormBloc>().add(EmailUnfocused());
-        FocusScope.of(context).requestFocus(_passwordFocusNode);
+        // FocusScope.of(context).requestFocus(_phoneFocusNode);
+      }
+    });
+    _phoneFocusNode.addListener(() {
+      if (!_phoneFocusNode.hasFocus) {
+        context.read<MyFormBloc>().add(PhoneUnfocused());
+        // FocusScope.of(context).requestFocus(_passwordFocusNode);
       }
     });
     _passwordFocusNode.addListener(() {
@@ -71,6 +78,14 @@ class _SignUpState extends State<SignUp> {
                     label: 'Email',
                     type: TextInputType.text,
                     focusNode: _emailFocusNode,
+                  ),
+                  CustomPhoneTextField(
+                    hidden: false,
+                    hint: '0912323123',
+                    icon: Icons.phone,
+                    label: 'Phone',
+                    type: TextInputType.number,
+                    focusNode: _phoneFocusNode,
                   ),
                   CustomPassField(
                     hidden: true,
